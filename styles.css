@@ -43,4 +43,12 @@ body {
     color: #007bff;
     text-decoration: none;
   }
+  .status-toggle {
+    font-size: 1.2em;
+    transition: transform 0.2s;
+  }
   
+  .status-toggle:hover {
+    transform: scale(1.2);
+  }
+    

@@ -3,11 +3,15 @@ window.onload = async () => {
 
   try {
     const response = await fetch("questions.json");
-    const questions = await response.json();
+    let questions = await response.json();
+
+    // Custom sort: Easy -> Medium -> Hard
+    const difficultyOrder = { "Easy": 1, "Medium": 2, "Hard": 3 };
+    questions.sort((a, b) => difficultyOrder[a.Difficulty] - difficultyOrder[b.Difficulty]);
 
     questions.forEach((q, index) => {
       const row = document.createElement("tr");
-      const questionKey = `question-${q.ID}`; // Unique key for localStorage
+      const questionKey = `question-${q.ID}`;
       const isCompleted = localStorage.getItem(questionKey) === "true";
 
       row.innerHTML = `
@@ -26,7 +30,7 @@ window.onload = async () => {
       tbody.appendChild(row);
     });
 
-    // Add click listeners to toggle status
+    // Add toggle click handler
     document.querySelectorAll(".status-toggle").forEach(el => {
       el.addEventListener("click", () => {
         const cell = el.closest(".status-cell");
